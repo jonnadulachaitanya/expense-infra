@@ -89,7 +89,7 @@ pipeline {
           stages {
               stage('ACM') {
                   steps {
-                      build job: '60-acm', parameters: [string(name: 'ACTION', value: "apply")], wait: false
+                      build job: '60-acm', parameters: [string(name: 'ACTION', value: "apply")]
                   }
               }
               stage('ALB') {
