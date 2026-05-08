@@ -20,6 +20,8 @@ pipeline {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
                         cd 10-vpc
+                        rm -rf .terraform
+                        rm -f .terraform.lock.hcl
                         terraform init -reconfigure
                         terraform plan -out=tfplan
                     """
