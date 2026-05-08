@@ -1,8 +1,8 @@
 resource "aws_key_pair" "eks_key" {
   key_name = "eks-new"
   # you can paste the public key directly like this
-  #public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6ONJth+DzeXbU3oGATxjVmoRjPepdl7sBuPzzQT2Nc sivak@BOOK-I6CR3LQ85Q"
-  public_key = file("F:/devops/keys/eks.pub")
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKr/XSGN644HTUF33kH71regpPFErI8YPIGQMR93Wgm9qWxfTDrlsttPtoxUVi6YOPkPg+px2kQ8IX+lGnIxHOURw83v+V/7uF7FwOFHmppcPfLOc0Wwmgy8pdJTnSmNs1iZEow81IJkykIn/6pSUUgnoML0ci416nDYZFS0G++YMbpCLZA7HVKhxkMhlc+cAooyXm+vq5fBrfpf/+xh8U926n83m1v2wavlxNJMVfh5YvJ+sKH3uEUQ5rl/t7SsvkNblfEf5Wb7pb2B0FyTRn5jmMNSjx7DmsMeIZkud/vxSLmEajVmvzRWYjmumRD+Elvt4/pe03oseqIk0SoK61"
+  #public_key = file("F:/devops/keys/eks.pub")
   # ~ means windows home directory
 }
 
