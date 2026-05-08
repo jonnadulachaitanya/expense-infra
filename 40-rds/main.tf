@@ -1,5 +1,6 @@
 module "mysql" {
-  source = "terraform-aws-modules/rds/aws"
+  source  = "terraform-aws-modules/rds/aws"
+  version = "6.4.0"
 
   identifier = local.resource_name #expense-dev
 
@@ -8,11 +9,13 @@ module "mysql" {
   instance_class    = "db.t3.micro"
   allocated_storage = 5
 
-  db_name                     = "transactions"
-  username                    = "root"
-  manage_master_user_password = false
-  password                    = "ExpenseApp1"
-  port                        = "3306"
+  db_name  = "transactions"
+  username = "root"
+  password = "ExpenseApp1"
+
+  port = 3306
+
+  publicly_accessible = false
 
 
   #iam_database_authentication_enabled = true (we do not need this as of now)
@@ -77,7 +80,8 @@ module "mysql" {
 
 
 module "records" {
-  source = "terraform-aws-modules/route53/aws//modules/records"
+  source  = "terraform-aws-modules/route53/aws//modules/records"
+  version = "3.1.0"
 
   zone_name = var.zone_name
 

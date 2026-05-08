@@ -20,44 +20,25 @@ variable "mysql_sg_tags" {
   }
 }
 
-variable "backend_sg_tags" {
+variable "control_plane_sg_tags" {
   default = {
-    component = "backend"
+    component = "control_plane"
   }
 }
 
-variable "frontend_sg_tags" {
+variable "node_sg_tags" {
   default = {
-    component = "frontend"
+    component = "node"
   }
 }
 variable "bastion_sg_tags" {
   default = {
-    component = "frontend"
+    component = "bastion"
   }
 }
 
-variable "ansible_sg_tags" {
+variable "ingress_alb_sg_tags" {
   default = {
-    component = "ansible"
+    component = "ingress-alb"
   }
 }
-
-variable "app_alb_sg_tags" {
-  default = {
-    component = "app-alb"
-  }
-}
-
-variable "vpn_sg_tags" {
-  default = {
-    component = "vpn"
-  }
-}
-
-variable "web_alb__sg_tags" {
-  default = {
-    component = "web-alb"
-  }
-}
-

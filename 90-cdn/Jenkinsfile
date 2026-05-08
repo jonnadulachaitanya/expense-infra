@@ -19,7 +19,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 00-vpc
+                        cd 90-cdn
                         terraform init -reconfigure
                         terraform plan -out=tfplan
                     """
@@ -35,7 +35,7 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 30-bastion
+                        cd 90-cdn
                         if [ ${params.ACTION} == 'apply' ]
                         then
                             terraform apply --auto-approve
@@ -48,6 +48,79 @@ pipeline {
                 }
             }
         }
+        /* stage('Destroy') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            parallel {
+                stage('ECR') {
+                    steps {
+                        build job: '80-ecr', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                    }
+                }
+                stage('ALB') {
+                    steps {
+                        build job: '70-alb', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                    }
+                }
+                stage('EKS') {
+                    steps {
+                        build job: '50-eks', parameters: [string(name: 'ACTION', value: "destroy")], wait: true
+                    }
+                }
+                stage('Bastion') {
+                    steps {
+                        build job: '30-bastion', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                    }
+                }
+
+            }
+        } */
+        stage('Destroy'){
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            steps{
+                withAWS(region: 'us-east-1', credentials: 'aws-creds') {
+                    script {
+                        def directories = ['90-cdn', '80-ecr', '70-alb', '60-acm', '50-eks', '40-rds', '30-bastion', '20-sg', '10-vpc']
+                        for (dir in directories) {
+                            echo "Destroying resources in directory: ${dir}"
+                            sh """
+                            cd ${dir}
+                            terraform init -reconfigure
+                            terraform destroy -auto-approve || { echo "Failed to destroy resources in ${dir}"; exit 1; }
+                            cd ..
+                            """
+                        }
+            }
+                }
+            }
+        }
+        /* stage('Sequential') {
+            when {
+                expression { params.ACTION == 'destroy' }
+            }
+            stages {
+
+                stage('ACM') {
+                    steps {
+                        build job: '60-acm', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                    }
+                }
+                stage('SG-Destroy'){
+                    steps {
+                        build job: '20-sg', parameters: [string(name: 'ACTION', value: "destroy")], wait: true
+                    }
+                }
+                stage('VPC-Destroy'){
+                    steps {
+                        build job: '10-vpc', parameters: [string(name: 'ACTION', value: "destroy")], wait: false
+                    }
+                }
+            }
+
+        } */
     }
 
     post {

@@ -19,22 +19,22 @@ pipeline {
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 10-sg
+                        cd 20-sg
                         terraform init -reconfigure
                         terraform plan -out=tfplan
                     """
             }
         }
         stage('Apply and Destroy') {
-            input {
-                message "Should we continue to ${params.ACTION}"
-                ok "Yes, we should."
-            }
+            // input {
+            //     message "Should we continue to ${params.ACTION}"
+            //     ok "Yes, we should."
+            // }
 
             steps {
                 withAWS(region: 'us-east-1', credentials: 'aws-creds') {
                     sh """
-                        cd 10-sg
+                        cd 20-sg
                         if [ ${params.ACTION} == 'apply' ]
                         then
                             terraform apply --auto-approve
