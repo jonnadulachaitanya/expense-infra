@@ -13,6 +13,15 @@ We are using bastion as our EKS client, so it will have
 * helm
 * aws configure
 
+## Plugins
+
+* Pipeline: Stage View
+* Pipeline Utility Steps
+* NodeJS
+* AWS Credentials
+* Pipeline: AWS Steps
+* AnsiColor
+
 ## RDS Configuration
 * Since we are using RDS instead of MySQL image, we need to configure RDS manually, we are creating schema as part of RDS but table and user should be created.
 * Make sure MySQL instance allows port no 3306 from bastion
