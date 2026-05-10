@@ -113,8 +113,8 @@ resource "aws_security_group_rule" "mysql_accepting_from_nodes" {
 
 resource "aws_security_group_rule" "mysql_accepting_from_bastion" {
   type                     = "ingress"
-  from_port                = 22
-  to_port                  = 22
+  from_port                = 3306
+  to_port                  = 3306
   protocol                 = "tcp"
   source_security_group_id = module.bastion_sg.sg_id
   security_group_id        = module.mysql_sg.sg_id
