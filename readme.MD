@@ -21,6 +21,7 @@ We are using bastion as our EKS client, so it will have
 * AWS Credentials
 * Pipeline: AWS Steps
 * AnsiColor
+* SonarQube Scanne
 
 ## RDS Configuration
 * Since we are using RDS instead of MySQL image, we need to configure RDS manually, we are creating schema as part of RDS but table and user should be created.
